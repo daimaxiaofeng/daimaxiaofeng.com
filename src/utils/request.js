@@ -4,7 +4,7 @@ import sysConfig from "@/config";
 import tool from '@/utils/tool';
 import router from '@/router';
 
-axios.defaults.baseURL = 'http://api-gateway'
+axios.defaults.baseURL = 'api'
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.timeout = sysConfig.TIMEOUT
 
