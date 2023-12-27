@@ -152,11 +152,8 @@
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						const jsonData = JSON.stringify(this.form);
-						axios.post('http://localhost:2024/register', jsonData, {
-							headers: {
-								'Content-Type': 'application/json'
-							}
-						}).then(() => {
+						axios.post('register', jsonData)
+						.then(() => {
 								this.stepActive += 1;
 						}).catch(error => {
 								console.error(error);

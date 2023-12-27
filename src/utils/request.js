@@ -4,8 +4,8 @@ import sysConfig from "@/config";
 import tool from '@/utils/tool';
 import router from '@/router';
 
-axios.defaults.baseURL = ''
-
+axios.defaults.baseURL = 'http://api-gateway'
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.timeout = sysConfig.TIMEOUT
 
 // HTTP request 拦截器
