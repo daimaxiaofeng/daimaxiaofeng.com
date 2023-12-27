@@ -68,6 +68,7 @@
 <script>
 	import scPasswordStrength from '@/components/scPasswordStrength';
 	import commonPage from './components/commonPage'
+	import axios from 'axios';
 
 	export default {
 		components: {
@@ -150,7 +151,16 @@
 				const formName = `stepForm_${this.stepActive}`
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
-						this.stepActive += 1
+						const jsonData = JSON.stringify(this.form);
+						axios.post('http://localhost:2024/register', jsonData, {
+							headers: {
+								'Content-Type': 'application/json'
+							}
+						}).then(() => {
+								this.stepActive += 1;
+						}).catch(error => {
+								console.error(error);
+						});
 					}else{
 						return false
 					}
