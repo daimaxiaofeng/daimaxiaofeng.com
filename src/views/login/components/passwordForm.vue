@@ -3,7 +3,7 @@
 		<el-form-item prop="user">
 			<el-input v-model="form.user" prefix-icon="el-icon-user" clearable :placeholder="$t('login.userPlaceholder')">
 				<template #append>
-					<el-select v-model="userType" style="width: 130px;">
+					<el-select v-model="userType" style="width: 130px;" :disabled="true">
 						<el-option :label="$t('login.admin')" value="admin"></el-option>
 						<el-option :label="$t('login.user')" value="user"></el-option>
 					</el-select>
@@ -15,10 +15,10 @@
 		</el-form-item>
 		<el-form-item style="margin-bottom: 10px;">
 				<el-col :span="12">
-					<el-checkbox :label="$t('login.rememberMe')" v-model="form.autologin"></el-checkbox>
+					<!-- <el-checkbox :label="$t('login.rememberMe')" v-model="form.autologin"></el-checkbox> -->
 				</el-col>
 				<el-col :span="12" class="login-forgot">
-					<router-link to="/reset_password">{{ $t('login.forgetPassword') }}？</router-link>
+					<!-- <router-link to="/reset_password">{{ $t('login.forgetPassword') }}？</router-link> -->
 				</el-col>
 		</el-form-item>
 		<el-form-item>
@@ -34,10 +34,10 @@
 	export default {
 		data() {
 			return {
-				userType: 'admin',
+				userType: 'user',
 				form: {
-					user: "admin",
-					password: "admin",
+					user: "",
+					password: "",
 					autologin: false
 				},
 				rules: {
