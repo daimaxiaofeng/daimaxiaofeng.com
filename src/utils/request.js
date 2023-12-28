@@ -63,6 +63,8 @@ axios.interceptors.response.use(
 						router.replace({path: '/login'});
 					}).catch(() => {})
 				}
+			} else if (error.response.status == 409) {
+				// DO NOTHING
 			} else {
 				ElNotification.error({
 					title: '请求错误',

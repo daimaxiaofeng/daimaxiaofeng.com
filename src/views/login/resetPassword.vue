@@ -20,7 +20,7 @@
 			</el-form-item>
 			<el-form-item label="新密码" prop="newpw">
 				<el-input v-model="form.newpw" show-password placeholder="请输入新密码"></el-input>
-				<div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
+				<div class="el-form-item-msg">请输入 8 ~ 32 位的密码</div>
 			</el-form-item>
 			<el-form-item label="确认新密码" prop="newpw2">
 				<el-input v-model="form.newpw2" show-password placeholder="请再一次输入新密码"></el-input>

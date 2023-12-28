@@ -6,20 +6,20 @@
 		    <el-step title="完成注册" />
 		</el-steps>
 		<el-form v-if="stepActive==0" ref="stepForm_0" :model="form" :rules="rules" :label-width="120">
-			<el-form-item label="登录账号" prop="user">
-				<el-input v-model="form.user" placeholder="请输入登录账号"></el-input>
+			<el-form-item label="用户名" prop="username">
+				<el-input v-model="form.username" placeholder="请输入用户名"></el-input>
 				<div class="el-form-item-msg">登录账号将作为登录时的唯一凭证</div>
 			</el-form-item>
-			<el-form-item label="登录密码" prop="password">
-				<el-input v-model="form.password" type="password" show-password placeholder="请输入登录密码"></el-input>
+			<el-form-item label="密码" prop="password">
+				<el-input v-model="form.password" type="password" show-password placeholder="请输入密码"></el-input>
 				<sc-password-strength v-model="form.password"></sc-password-strength>
-				<div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
+				<div class="el-form-item-msg">请输入 8 ~ 32 位的密码</div>
 			</el-form-item>
 			<el-form-item label="确认密码" prop="password2">
-				<el-input v-model="form.password2" type="password" show-password placeholder="请再一次输入登录密码"></el-input>
+				<el-input v-model="form.password2" type="password" show-password placeholder="请再次输入密码"></el-input>
 			</el-form-item>
 			<el-form-item label="" prop="agree">
-				<el-checkbox v-model="form.agree" label="">已阅读并同意</el-checkbox><span class="link" @click="showAgree=true">《平台服务协议》</span>
+				<el-checkbox v-model="form.agree" label="">已阅读并同意</el-checkbox><span class="link" @click="showAgree=true">《网站服务协议》</span>
 			</el-form-item>
 		</el-form>
 		<!-- <el-form v-if="stepActive==1" ref="stepForm_1" :model="form" :rules="rules" :label-width="120">
@@ -55,8 +55,8 @@
 			<el-button v-if="stepActive<1" type="primary" @click="next">下一步</el-button> -->
 			<el-button v-if="stepActive==0" type="primary" @click="save">提交</el-button>
 		</el-form>
-		<el-dialog v-model="showAgree" title="平台服务协议" :width="800" destroy-on-close>
-			平台服务协议
+		<el-dialog v-model="showAgree" title="网站服务协议" :width="800" destroy-on-close>
+			网站服务协议
 			<template #footer>
 				<el-button @click="showAgree=false">取消</el-button>
 				<el-button type="primary" @click="showAgree=false;form.agree=true;">我已阅读并同意</el-button>
@@ -80,28 +80,50 @@
 				stepActive: 0,
 				showAgree: false,
 				form: {
-					user: "",
+					username: "",
 					password: "",
-					password2: "",
+					// password2: "",
 					agree: false,
-					userName: "",
-					email: "",
-					userType: "1",
-					open: []
+					// userName: "",
+					// email: "",
+					// userType: "1",
+					// open: []
 				},
 				rules: {
-					user: [
-						{ required: true, message: '请输入账号名'}
+					username: [
+						{ required: true, message: '请输入用户名'},
+						{ min: 4, max: 16, message: '用户名长度应为 4 ~ 16 个字符', trigger: 'blur' },
+						{ pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/, message: '用户名应以字母开头且不包含字符', trigger: 'blur' },
+						{
+							validator: (rule, value, callback) => {
+								const jsonData = JSON.stringify({ username: value });
+								http.post('user/checkUsername', jsonData)
+								.then(() => {
+									callback();
+								})
+								.catch(error => {
+									if (error.status == 409) {
+										callback(new Error('用户名已存在'))
+									} else if (error.status == 400) {
+										callback(new Error('用户名不合法'))
+									} else {
+										console.log(error)
+									}
+								});
+							},
+							trigger: 'blur'
+						}
 					],
 					password: [
-						{ required: true, message: '请输入密码'}
+						{ required: true, message: '请输入密码'},
+						{ min: 8, max: 32, message: '密码长度应为 8 ~ 32 个字符', trigger: 'blur' }
 					],
 					password2: [
 						{ required: true, message: '请再次输入密码'},
-						{validator: (rule, value, callback) => {
+						{ validator: (rule, value, callback) => {
 							if (value !== this.form.password) {
 								callback(new Error('两次输入密码不一致'));
-							}else{
+							} else {
 								callback();
 							}
 						}}

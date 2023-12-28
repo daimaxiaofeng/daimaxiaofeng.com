@@ -9,7 +9,7 @@
 			<el-form-item label="新密码" prop="newPassword">
 				<el-input v-model="form.newPassword" type="password" show-password placeholder="请输入新密码"></el-input>
 				<sc-password-strength v-model="form.newPassword"></sc-password-strength>
-				<div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
+				<div class="el-form-item-msg">请输入 8 ~ 32 位的密码</div>
 			</el-form-item>
 			<el-form-item label="确认新密码" prop="confirmNewPassword">
 				<el-input v-model="form.confirmNewPassword" type="password" show-password placeholder="请再次输入新密码"></el-input>
